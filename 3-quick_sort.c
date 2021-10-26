@@ -6,5 +6,5 @@
  */
 void quick_sort(int *array, size_t size)
 {
-quick_sort_recursive(array, 0, size - 1);
+	quick_sort_recursive(array, 0, size - 1);
 }
