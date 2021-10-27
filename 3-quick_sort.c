@@ -75,6 +75,7 @@ return (i + 1);
  * @array: array
  * @a: saves the position to be exchanged
  * @b: saves the position to be exchanged
+ * @size: array length
  */
 
 void swap(int *array, int a, int b, size_t size)
