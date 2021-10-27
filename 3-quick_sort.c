@@ -1,60 +1,69 @@
 #include "sort.h"
-void quick_sort_recursive(int *array, int left_limit, int right_limit, size_t size);
+//function prototypes
+int partition(int *array, int left, int right, size_t size);
+void qs(int *array, int left, int right, size_t size);
 void swap(int *array, int a, int b, size_t size);
-/**
- * quick_sort - organize an array using the quick sort method
- * @array: array to organize
- * @size: size of array
- */
+
+//function statements
 void quick_sort(int *array, size_t size)
 {
-    quick_sort_recursive(array, 0, size - 1, size);
+    if (array == NULL || size < 2)
+        return;
+    qs(array, 0, size - 1, size);
 }
 
 /**
- * quick_sort_recursive - organize an array using the quick sort method
- * @array: array to organize
- * @left_limit: saves the position on the left
- * @right_limit: saves the position on the right
- */
-void quick_sort_recursive(int *array, int left_limit, int right_limit, size_t size)
+  * qs - quick sort function
+  * @array: array to be sorted
+  * @left: left edge of the array
+  * @right: right edge of the array
+  * @size: size of the array
+  */
+
+void qs(int *array, int left, int right, size_t size)
 {
-    int pivot, left, right;
+    size_t pivot = 0;
 
-    left = left_limit;
-    right = right_limit;
-    pivot = array[(left + right) / 2];
-
-    do
+    if (left < right)
     {
-        while (array[left] < pivot && left < right_limit)
-        {
-            left++;
-        }
-
-        while (pivot < array[right] && right > left_limit)
-        {
-            right--;
-        }
-        
-        if (left <= right)
-        {
-            swap(array, left, right, size);
-            left++;
-            right--;
-        }
-        
-    } while (left <= right);
-    
-    if (left_limit < right_limit)
-    {
-        quick_sort_recursive(array, left_limit, right, size);
+        pivot = partition(array, left, right, size);
+        if (pivot > 0)
+            qs(array, left, pivot - 1, size);
+        if (pivot != size)
+            qs(array, pivot + 1, right, size);
     }
-    
-    if (right_limit > left)
+}
+
+/**
+  * partition - fix the position of the elements
+  * @array: array to be sorted
+  * @left: left edge of the array
+  * @right: right edge of the array
+  * @size: size of the array
+  * Return: the index of the pivot
+  */
+
+int partition(int *array, int left, int right, size_t size)
+{
+    int pivot = array[right];
+    int i = left - 1, j;
+
+    for (j = left; j < right; j++)
     {
-        quick_sort_recursive(array, left, right_limit, size);
+        if (array[j] <= pivot)
+        {
+            i++;
+            if (j != i)
+            {
+                swap(array, j, i, size);
+            }
+        }
     }
+    if (pivot < array[i + 1])
+    {
+        swap(array, i, right, size);
+    }
+    return (i + 1);
 }
 /**
  * swap - swaps values in an array
@@ -64,8 +73,8 @@ void quick_sort_recursive(int *array, int left_limit, int right_limit, size_t si
  */
 void swap(int *array, int a, int b, size_t size)
 {
-    int temp = array[a];
-    array[a] = array[b];
+    int temp = array[a + 1];
+    array[a + 1] = array[b];
     array[b] = temp;
-	print_array(array, size);
+    print_array(array, size);
 }
